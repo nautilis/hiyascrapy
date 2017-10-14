@@ -19,20 +19,17 @@ class IsThereLiZi(RedisSpider):
     def parse(self, response):
 	sleep(2)
         listSelect = response.xpath("//table[@class='olt']/tr[@class='']")
-        #print listSelect
+
         for sel in listSelect:
-            authorLink = sel.xpath("td[@nowrap='nowrap'][1]/a/@href").extract()
-            print authorLink[0]
-            author = sel.xpath("td[@nowrap='nowrap'][1]/a/text()").extract()
-            postUrl = sel.xpath("td[@class='title']/a/@href").extract()
-            print author
-            print postUrl
-            print self.doubanId
-            if len(author) != 0 and len(postUrl) != 0:
-                if self.doubanId in authorLink[0]:
+            authorLink = sel.xpath("td[@nowrap='nowrap'][1]/a/@href").extract_first()
+            author = sel.xpath("td[@nowrap='nowrap'][1]/a/text()").extract_first()
+            postUrl = sel.xpath("td[@class='title']/a/@href").extract_first()
+
+            if author and postUrl:
+                if self.doubanId in authorLink:
                     item = PostAuthroItem()
-                    item['author'] = author[0].encode('utf-8')
-                    item['post'] = postUrl[0].encode('utf-8')
+                    item['author'] = author.encode('utf-8')
+                    item['post'] = postUrl.encode('utf-8')
                     print 'match'
                     yield item
                 else:

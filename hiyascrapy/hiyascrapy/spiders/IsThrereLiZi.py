@@ -33,7 +33,7 @@ class IsThereLiZi(scrapy.Spider):
     def get_all_urls(self, response):
         total = response.xpath("//span[@class='thispage']/@data-total-page").extract()
         print total
-        if len(total) != 0:
+        if total:
             pagesNo = int(total[0])
         urls = []
         for i in range(0,pagesNo, 25):
@@ -42,7 +42,5 @@ class IsThereLiZi(scrapy.Spider):
         print urls
 
         for url in urls:
-            #sleep(5)
-            #yield Request(url= url, callback=self.parse_page)
             r = redis.Redis(connection_pool=self.pool)
             r.lpush('spider:douban', url)

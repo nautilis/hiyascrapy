@@ -1,4 +1,3 @@
-#from scrapy.cmdline import execute
 import sys
 import os
 from scrapy.crawler import CrawlerProcess
@@ -13,6 +12,3 @@ process = CrawlerProcess(get_project_settings())
 process.crawl(spiderMaster,doubanId=id)
 process.crawl(spiderSalve,doubanId=id)
 process.start()
-#execute(["scrapy","crawl","istherelizimaster",'-a','doubanId={}'.format(doubanId)])
-#execute(["scrapy","crawl","istherelizi",'-a','doubanId={}'.format(doubanId)])
-
